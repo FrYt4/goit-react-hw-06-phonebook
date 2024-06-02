@@ -6,7 +6,7 @@ import { addContats } from '../redux/operations';
 import { Notify } from 'notiflix';
 
 
-const ContactForm = () => {
+ const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
@@ -14,31 +14,32 @@ const ContactForm = () => {
     event.preventDefault();
     const form = event.target;
 
-    let isContact;
-    contacts.forEach(person => {
-      if (form.name.value.toLowerCase() === person.name.toLowerCase()) {
-        isContact = true;
-      }
+    // Używamy Array.isArray, aby upewnić się, że contacts jest tablicą
+    const isContact = Array.isArray(contacts) && contacts.some(person => {
+      return form.name.value.toLowerCase() === person.name.toLowerCase();
     });
-    isContact
-      ? Notify.warning(`${form.name.value} is already in your Contacts.`, {
-          timeout: 3000,
-          position: 'left-top',
-          closeButton: true,
+
+    if (isContact) {
+      Notify.warning(`${form.name.value} is already in your Contacts.`, {
+        timeout: 3000,
+        position: 'left-top',
+        closeButton: true,
+      });
+    } else {
+      dispatch(
+        addContats({
+          id: nanoid(),
+          name: form.name.value,
+          phone: form.phone.value,
         })
-      : dispatch(
-          addContats({
-            id: nanoid(),
-            name: form.name.value,
-            phone: form.phone.value,
-          })
-        );
+      );
+    }
+
     form.reset();
   };
 
-    const nameInputId = nanoid();
-    const numberInputId = nanoid();
-
+  const nameInputId = nanoid();
+  const numberInputId = nanoid();
 
  return (
     <form onSubmit={handleSubmit}>
