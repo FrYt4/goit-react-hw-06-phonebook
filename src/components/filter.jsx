@@ -2,24 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types'; 
 import { useDispatch } from 'react-redux';
 import { setFilter } from '../redux/filterSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 
 export const Filter = () => {
     const dispach = useDispatch();
+    const filterId = nanoid()
 
     const onChange = (event) => {
         dispach(setFilter(event.target.value));
     };
 
-    return (
-        <input
-            type="text"
-            name="filter"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            onChange={onChange}
-        />
-    )
+return (
+    <div>
+      <label htmlFor={filterId}>Find contacts by name</label>
+      <input
+        id={filterId}
+        type="search"
+        onChange={event => onChange(event)}
+      ></input>
+    </div>
+  );
 }
 
 Filter.propTypes = {

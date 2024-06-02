@@ -1,33 +1,29 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from '../redux/contactsSlice';
+import { useSelector } from 'react-redux';
+import { selectFilteredContats, selectisLoading } from '../redux/selectors';
+import ContactsListeElement from './contactsListElement';
 
-export const Contacts = () => {
-    const dispatch = useDispatch();
-    const contacts = useSelector(state => state.contacts);
-    const filter = useSelector(state => state.filter);
-
-    console.log('Contacts from state:', contacts);
-
-    const filteredContacts = filter
-        ? contacts.filter(contact =>
-            contact.name.toLowerCase().includes(filter.toLowerCase())
-        )
-        : contacts;
-
-    const usersList = filteredContacts.map(user => (
-        user && user.name && user.number && (
-            <li key={user.id}>
-                {user.name}: {user.number}
-                <button id={user.id} onClick={() => dispatch(deleteContact(user.id))} type='button'>Delete</button>
-            </li>
-        )
-    ));
+const ContactList = () => {
+    const items = useSelector(selectFilteredContats);
+    const isLoading = useSelector(selectisLoading);
 
     return (
         <div>
-            <p>Contacts</p>
-            <ul>{usersList}</ul>
+            <h4>You have {items.length}contact{items.length === 1 ? null : 's'}</h4>
+              <ul >
+        {!!isLoading && <b>Loading contacts...</b>}
+        {!!items &&
+          items.map(contact => (
+            <li key={contact.id}>
+              <ContactsListeElement contact={contact} />
+            </li>
+          ))}
+      </ul>
         </div>
-    );
-};
+    )
+}
+
+export default ContactList;
+
+
+    
