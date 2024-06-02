@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectFilteredContats, selectisLoading } from '../redux/selectors';
+import { selectFilteredContacts, selectIsLoading } from '../redux/selectors';
 import ContactsListeElement from './contactsListElement';
 
 const ContactList = () => {
-    const items = useSelector(selectFilteredContats);
-    const isLoading = useSelector(selectisLoading);
+    const items = useSelector(selectFilteredContacts);
+    const isLoading = useSelector(selectIsLoading);
 
     return (
         <div>

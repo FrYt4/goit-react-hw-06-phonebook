@@ -1,14 +1,14 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { selectContats } from '../redux/selectors';
+import { selectContacts } from '../redux/selectors';
 import { addContats } from '../redux/operations';
 import { Notify } from 'notiflix';
 
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContats);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = event => {
     event.preventDefault();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { selectisLoading, selectError } from '../redux/selectors';
+import { selectIsLoading, selectError } from '../redux/selectors';
 import { fetchContats } from '../redux/operations';
 import ContactForm from './contactForm';
 import ContactList from './contacts';
@@ -11,7 +11,7 @@ import { Filter } from './filter';
 
 export const App = () => {
     const dispatch = useDispatch();
-    const isLoading = useSelector(selectisLoading)
+    const isLoading = useSelector(selectIsLoading)
     const error = useSelector(selectError)
 
     useEffect(() => {
