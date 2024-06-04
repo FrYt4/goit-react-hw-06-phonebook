@@ -1,26 +1,20 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
 import { setFilter } from '../redux/filterSlice';
-import { nanoid } from '@reduxjs/toolkit';
-
 
 export const Filter = () => {
-    const dispach = useDispatch();
-    const filterId = nanoid()
+    const dispatch = useDispatch();
 
-    const onChange = (event) => {
-        dispach(setFilter(event.target.value));
-    };
+    return (
+        <div >
+        <label>Find contacts by name:
+            <input 
+                type='text'
+                name="filter"
+                placeholder='Search contact...'
+                onChange={(e)=> dispatch(setFilter(e.target.value)) }
+            />
+        </label>
+        </div>
 
-return (
-    <div>
-      <label htmlFor={filterId}>Find contacts by name</label>
-      <input
-        id={filterId}
-        type="search"
-        onChange={event => onChange(event)}
-      ></input>
-    </div>
-  );
+    )
 }
-

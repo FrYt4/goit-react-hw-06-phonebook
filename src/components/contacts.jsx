@@ -1,29 +1,42 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectFilteredContacts, selectIsLoading } from '../redux/selectors';
-import ContactsListeElement from './contactsListElement';
 
-const ContactList = () => {
-    const items = useSelector(selectFilteredContacts);
-    const isLoading = useSelector(selectIsLoading);
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts, selectFilter } from '../redux/selectors';
+import { deleteContact } from '../redux/operations';
+
+export const ContactList = () => {
+    const dispatch = useDispatch();
+    const contacts = useSelector(selectContacts);
+    const filter = useSelector(selectFilter)
+
+    const filteredUserData = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase()));
 
     return (
-        <div>
-            <h4>You have {items.length}contact{items.length === 1 ? null : 's'}</h4>
-              <ul >
-        {!!isLoading && <b>Loading contacts...</b>}
-        {!!items &&
-          items.map(contact => (
-            <li key={contact.id}>
-              <ContactsListeElement contact={contact} />
-            </li>
-          ))}
-      </ul>
+        <div >
+            {filteredUserData.length > 0 ?
+                (
+                    <table>
+                        <thead >
+                            <tr>
+                                <th>Name</th>
+                                <th>Number</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            {filteredUserData.map((contact) => (
+                                <tr key={contact.id}>
+                                    <td>{contact.name}</td>
+                                    <td>{contact.phone}</td>
+                                    <td><button  onClick={() => dispatch(deleteContact(contact.id))}>Delete</button></td>
+                                </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>There is no contacts. </p>
+                )}
         </div>
-    )
+    )    
 }
-
-export default ContactList;
-
-
-    
